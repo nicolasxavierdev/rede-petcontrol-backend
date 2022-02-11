@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
     required: true
   },
   telephone: {
-    type: Number,
+    type: String,
     required: true
   },
   address: {
@@ -18,7 +18,7 @@ const schema = new mongoose.Schema({
     required: true
   },
   pets: {
-    type: String,
+    type: Array,
     required: true
   }
 });
