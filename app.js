@@ -43,7 +43,10 @@ app.post('/clientes', async (req, res) => {
   const idData = req.body;
   const clientes = new clientesModel({
     name: idData.name,
-    status: idData.status
+    email: idData.email,
+    telephone: idData.telephone,
+    address: idData.address,
+    pets: idData.pets
   });
   try {
     const currentClientes = await clientes.save();
