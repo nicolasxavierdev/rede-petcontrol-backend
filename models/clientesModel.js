@@ -5,8 +5,20 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  status: {
-    type: Boolean,
+  email: {
+    type: String,
+    required: true
+  },
+  telephone: {
+    type: Number,
+    required: true
+  },
+  address: {
+    type: String,
+    required: true
+  },
+  pets: {
+    type: String,
     required: true
   }
 });
