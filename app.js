@@ -6,13 +6,11 @@ const clientesModel = require('./models/clientesModel');
 const app = express();
 
 app.use(bodyParser.json());
-mongoose.connect("mongodb://localhost:27017/todolistDB");
+mongoose.connect("mongodb://localhost:27017/redePetControl");
 
 app.listen(3000, () => {
   console.log('rodando na porta 3000');
 });
-
-module.exports = app;
 
 app.get('/clientes', async (req, res) => {
   try {
