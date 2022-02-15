@@ -1,85 +1,14 @@
 const express = require('express');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const clientesModel = require('./models/clientesModel');
+const userRoute = require('./routes/clientesRoute');
 
 const app = express();
+app.use('/clientes', userRoute);
 
 app.use(bodyParser.json());
 mongoose.connect("mongodb://localhost:27017/redePetControl");
 
 app.listen(3000, () => {
   console.log('rodando na porta 3000');
-});
-
-app.get('/clientes', async (req, res) => {
-  try {
-    const clientes = await clientesModel.find({}).sort({_id: 'desc'});
-    res.send(clientes)
-  } catch (error) {
-    res.status(400).json({
-      status: 'fail',
-      message: error
-    });
-  }
-});
-
-app.get('/clientes/:id', async (req, res) => {
-  const idClientes = req.params.id;
-  try {
-    const clientes = await clientesModel.findById(idClientes)
-    res.send(clientes);
-  } catch (error) {
-    res.status(400).json({
-      status: 'fail',
-      message: error
-    });
-  }
-});
-
-app.post('/clientes', async (req, res) => {
-  const idData = req.body;
-  const clientes = new clientesModel({
-    name: idData.name,
-    email: idData.email,
-    telephone: idData.telephone,
-    address: idData.address,
-    pets: idData.pets
-  });
-  try {
-    const currentClientes = await clientes.save();
-    res.send(currentClientes);
-  } catch (error) {
-    res.status(400).json({
-      status: 'fail',
-      message: error
-    });
-  }
-});
-
-app.put('/clientes/:id', async (req, res) => {
-  const idClientes = req.params.id;
-  const clientes = req.body;
-  try {
-    const clientesUpdated = await clientesModel.findByIdAndUpdate(idClientes, clientes);
-    res.send(clientesUpdated);
-  } catch (error) {
-    res.status(400).json({
-      status: 'fail',
-      message: error
-    });
-  }
-});
-
-app.delete('/clientes/:id', async (req, res) => {
-  const idClientes = req.params.id;
-  try {
-    const clientes = await clientesModel.findByIdAndRemove(idClientes);
-    res.send(clientes);
-  } catch (error) {
-    res.status(400).json({
-      status: 'fail',
-      message: error
-    });
-  }
 });
