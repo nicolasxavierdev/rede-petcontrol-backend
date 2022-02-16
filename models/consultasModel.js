@@ -6,7 +6,7 @@ const schema = new mongoose.Schema({
     required: true
   },
   consultationDate: {
-    type: String,
+    type: Date,
     required: true
   },
   client: {
