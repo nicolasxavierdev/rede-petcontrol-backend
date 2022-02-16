@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const clientesModel = require('../models/clientesModel');
 
-router.get('/clientes', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const clientes = await clientesModel.find({}).sort({_id: 'desc'});
     res.send(clientes)
@@ -14,7 +14,7 @@ router.get('/clientes', async (req, res) => {
   }
 });
 
-router.get('/clientes/:id', async (req, res) => {
+router.get('/:id', async (req, res) => {
   const idClientes = req.params.id;
   try {
     const clientes = await clientesModel.findById(idClientes)
@@ -27,17 +27,17 @@ router.get('/clientes/:id', async (req, res) => {
   }
 });
 
-router.post('/clientes', async (req, res) => {
-  const idData = req.body;
-  const clientes = new clientesModel({
-    name: idData.name,
-    email: idData.email,
-    telephone: idData.telephone,
-    address: idData.address,
-    pets: idData.pets
+router.post('/', async (req, res) => {
+  const newCliente = req.body;
+  const cliente = new clientesModel({
+    name: newCliente.name,
+    email: newCliente.email,
+    telephone: newCliente.telephone,
+    address: newCliente.address,
+    pets: newCliente.pets
   });
   try {
-    const currentClientes = await clientes.save();
+    const currentClientes = await cliente.save();
     res.send(currentClientes);
   } catch (error) {
     res.status(400).json({
@@ -47,7 +47,7 @@ router.post('/clientes', async (req, res) => {
   }
 });
 
-router.put('/clientes/:id', async (req, res) => {
+router.put('/:id', async (req, res) => {
   const idClientes = req.params.id;
   const clientes = req.body;
   try {
@@ -61,7 +61,7 @@ router.put('/clientes/:id', async (req, res) => {
   }
 });
 
-router.delete('/clientes/:id', async (req, res) => {
+router.delete('/:id', async (req, res) => {
   const idClientes = req.params.id;
   try {
     const clientes = await clientesModel.findByIdAndRemove(idClientes);
