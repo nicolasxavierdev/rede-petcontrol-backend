@@ -14,7 +14,7 @@ mongoose.connect("mongodb://localhost:27017/redePetControl");
 app.use('/clientes', clientesRoute);
 app.use('/consultas', consultasRoute);
 app.use('/pets', petsRoute);
-app.use('/user', usersRoute);
+app.use('/users', usersRoute);
 
 app.listen(3000, () => {
   console.log('rodando na porta 3000');
