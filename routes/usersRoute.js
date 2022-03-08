@@ -15,10 +15,10 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-  const idUsers = req.params.id;
+  const idUser = req.params.id;
   try {
-    const users = await usersModel.findByid(idUsers)
-    res.send(users);
+    const user = await usersModel.findById(idUser)
+    res.send(user);
   } catch (error) {
     res.status(400).json({
       status: 'fail',
