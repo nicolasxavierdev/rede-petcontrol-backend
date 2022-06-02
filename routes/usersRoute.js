@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const usersModel = require('../models/usersModel');
+
+const SECRET = 'PetC0ntr0l@2022';
 
 router.get('/', async (req, res) => {
   try {
@@ -28,6 +32,7 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
+  req.body.password = await bcrypt.hash(req.body.password, 10);
   const newUsres = req.body;
   const user = new usersModel({
     name: newUsres.name,
@@ -70,6 +75,26 @@ router.delete('/:id', async (req, res) => {
       status: 'fail',
       message: error
     });
+  }
+});
+
+router.post('/login', async (req, res) => {
+  try {
+    const user = await usersModel.findOne({ username: req.body.username });
+    if (user) {
+      const result = await bcrypt.compare(req.body.password, user.password);
+      if (result) {
+        const token = await jwt.sign({ username: user.username }, SECRET);
+        const {password, ...rest} = user._doc;
+        res.json({ user: {...rest, token} });
+      } else {
+        res.status(400).json({ error: "password doesn't match" });
+      }
+    } else {
+      res.status(400).json({ error: "User doesn't exist" });
+    }
+  } catch (error) {
+    res.status(400).json({ error });
   }
 });
 
